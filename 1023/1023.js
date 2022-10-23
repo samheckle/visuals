@@ -10,8 +10,7 @@ function main() {
   const canvas = document.querySelector("#glcanvas");
   canvas.width = document.body.clientWidth; //document.width is obsolete
   canvas.height = document.body.clientHeight; //document.height is obsolete
-  canvasW = canvas.width;
-  canvasH = canvas.height;
+
   const gl = canvas.getContext("webgl");
   // If we don't have a GL context, give up now
 
