@@ -8,6 +8,10 @@ const mat4 = glMatrix.mat4;
 //
 function main() {
   const canvas = document.querySelector("#glcanvas");
+  canvas.width = document.body.clientWidth; //document.width is obsolete
+  canvas.height = document.body.clientHeight; //document.height is obsolete
+  canvasW = canvas.width;
+  canvasH = canvas.height;
   const gl = canvas.getContext("webgl");
   // If we don't have a GL context, give up now
 
@@ -341,7 +345,6 @@ function isPowerOf2(value) {
 // Draw the scene.
 //
 function drawScene(gl, programInfo, buffers, texture, deltaTime) {
-
   gl.enable(gl.BLEND);
   gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
   gl.clearColor(0.0, 0.0, 0.0, 1.0); // Clear to black, fully opaque
@@ -375,19 +378,34 @@ function drawScene(gl, programInfo, buffers, texture, deltaTime) {
   // let translate1 = [0.0, 0.0, -1.0]
   // drawCube(gl, programInfo, buffers, projectionMatrix, texture, deltaTime, translate1)
 
-  for(var i = -5; i < 5; i+=3){
-    for(var j = -5; j < 5; j+=3){
-      let translate = [i, j, -10.0]
-      drawCube(gl, programInfo, buffers, projectionMatrix, texture, deltaTime/10, translate)
+  for (var i = -5; i < 5; i += 3) {
+    for (var j = -5; j < 5; j += 3) {
+      let translate = [i, j, -10.0];
+      drawCube(
+        gl,
+        programInfo,
+        buffers,
+        projectionMatrix,
+        texture,
+        deltaTime / 10,
+        translate
+      );
     }
   }
-
 
   // let translate2 = [-2.0, 1.0, -10.0]
   // drawCube(gl, programInfo, buffers, projectionMatrix, texture, deltaTime, translate2)
 }
 
-function drawCube(gl, programInfo, buffers, projectionMatrix, texture, deltaTime, translate){
+function drawCube(
+  gl,
+  programInfo,
+  buffers,
+  projectionMatrix,
+  texture,
+  deltaTime,
+  translate
+) {
   // Set the drawing position to the "identity" point, which is
   // the center of the scene.
   const modelViewMatrix = mat4.create();
