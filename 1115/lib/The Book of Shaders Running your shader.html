@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+        <meta charset="utf-8">
+
+        <title>The Book of Shaders: Running your shader</title>
+        <link href="https://thebookofshaders.com/favicon.gif" rel="shortcut icon">
+        <meta name="keywords" content="shader,openGL,WebGL,GLSL,book,procedural,generative">
+        <meta name="description" content="Gentle step-by-step guide through the abstract and complex universe of Fragment Shaders.">
+
+        <!--— Open Graph data —-->
+        <meta property="og:type" content="article">
+        <meta property="og:title" content="The Book of Shaders">
+        <meta property="og:site_name" content="The Book of Shaders">
+        <meta property="og:description" content="Gentle step-by-step guide through the abstract and complex universe of Fragment Shaders.">
+        <meta property="og:image" content="http://thebookofshaders.com/thumb.png">
+        <meta property="og:image:secure_url" content="https://thebookofshaders.com/thumb.png">
+        <meta property="og:image:type" content="image/png">
+        <meta property="og:image:width" content="500">
+        <meta property="og:image:height" content="500">
+
+
+        <!--— Twitter Card—-->
+        <meta name="twitter:card" content="image">
+        <meta name="twitter:site" content="@bookofshaders">
+        <meta name="twitter:creator" content="@patriciogv">
+        <meta name="twitter:title" content="The Book Of Shaders">
+        <meta name="twitter:domain" content="thebookofshaders.com">
+        <meta name="twitter:description" content="Gentle step-by-step guide through the abstract and complex universe of Fragment Shaders.">
+        <meta name="twitter:image" content="https://thebookofshaders.com/thumb.png">
+        <meta name="twitter:image:width" content="500">
+        <meta name="twitter:image:height" content="500">
+
+
+        <link href="https://thebookofshaders.com/favicon.gif" rel="shortcut icon">
+
+        <!-- Highlight -->
+
+        <link type="text/css" rel="stylesheet" href="The%20Book%20of%20Shaders%20Running%20your%20shader_files/github.css">
+        <script async="" src="The%20Book%20of%20Shaders%20Running%20your%20shader_files/google-analytics_analytics.js"></script><script async="" type="module" src="The%20Book%20of%20Shaders%20Running%20your%20shader_files/universal.mjs"></script><script async="" nomodule="" src="The%20Book%20of%20Shaders%20Running%20your%20shader_files/universal.js"></script><script type="text/javascript" src="The%20Book%20of%20Shaders%20Running%20your%20shader_files/highlight.min.js"></script>
+        <!-- GlslCanvas -->
+
+        <script type="text/javascript" src="The%20Book%20of%20Shaders%20Running%20your%20shader_files/GlslCanvas.js"></script>
+        <!-- GlslEditor -->
+
+        <link type="text/css" rel="stylesheet" href="The%20Book%20of%20Shaders%20Running%20your%20shader_files/glslEditor.css">
+        <script type="application/javascript" src="The%20Book%20of%20Shaders%20Running%20your%20shader_files/glslEditor.js"></script>
+        <!-- GlslGallery -->
+
+        <link type="text/css" rel="stylesheet" href="The%20Book%20of%20Shaders%20Running%20your%20shader_files/glslGallery.css">
+        <script type="application/javascript" src="The%20Book%20of%20Shaders%20Running%20your%20shader_files/glslGallery.js"></script>
+        <!-- Main style -->
+
+        <link type="text/css" rel="stylesheet" href="The%20Book%20of%20Shaders%20Running%20your%20shader_files/style.css">
+
+    <!-- Flowdesk Newsletter -->
+
+        <script>
+            (function(w, d, t, h, s, n) {
+                w.FlodeskObject = n;
+                var fn = function() {
+                (w[n].q = w[n].q || []).push(arguments);
+                };
+                w[n] = w[n] || fn;
+                var f = d.getElementsByTagName(t)[0];
+                var v = "?v=" + Math.floor(new Date().getTime() / (120 * 1000)) * 60;
+                var sm = d.createElement(t);
+                sm.async = true;
+                sm.type = "module";
+                sm.src = h + s + ".mjs" + v;
+                f.parentNode.insertBefore(sm, f);
+                var sn = d.createElement(t);
+                sn.async = true;
+                sn.noModule = true;
+                sn.src = h + s + ".js" + v;
+                f.parentNode.insertBefore(sn, f);
+            })(window, document, "script", "https://assets.flodesk.com", "/universal", "fd");
+        </script>
+    </head>
+    <body data-theme="dark">
+
+    <div class="header">
+        <p class="subtitle"><a href="https://thebookofshaders.com/">The Book of Shaders</a> by <a href="http://patriciogonzalezvivo.com/">Patricio Gonzalez Vivo</a> &amp; <a href="http://jenlowe.net/">Jen Lowe</a> </p>
+        <p>  <a href="https://thebookofshaders.com/04/?lan=id">Bahasa Indonesia</a> - <a href="https://thebookofshaders.com/04/?lan=vi">Tiếng Việt</a> - <a href="https://thebookofshaders.com/04/?lan=jp">日本語</a> - <a href="https://thebookofshaders.com/04/?lan=ch">中文版</a> - <a href="https://thebookofshaders.com/04/?lan=kr">한국어</a> - <a href="https://thebookofshaders.com/04/?lan=es">Español</a> - <a href="https://thebookofshaders.com/04/?lan=pt">Portugues</a> - <a href="https://thebookofshaders.com/04/?lan=fr">Français</a> - <a href="https://thebookofshaders.com/04/?lan=it">Italiano</a> - <a href="https://thebookofshaders.com/04/?lan=de">Deutsch</a> - <a href="https://thebookofshaders.com/04/?lan=ru">Русский</a> - <a href="https://thebookofshaders.com/04/">English</a></p>
+    <button type="button" class="themeSwitcher">Turn on the lights</button></div>
+    <hr>
+<div id="content"><h2>Running your shader</h2>
+<p>As part of the construction of this book and my art practice I made 
+an ecosystem of tools to create, display, share and curate shaders. 
+These tools work consistently across Linux, MacOS, Windows and <a href="https://www.raspberrypi.org/">Raspberry Pi</a> and browsers without the need of changing your code.</p>
+<h2>Running your shaders on the browser</h2>
+<p><strong>Display</strong>: all live examples in this book are displayed using <a href="https://github.com/patriciogonzalezvivo/glslCanvas">glslCanvas</a> which makes the process of running standalone shader incredibly easy.</p>
+<pre style="position: relative;"><code class="language-html hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">canvas</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"glslCanvas"</span> <span class="hljs-attr">data-fragment-url</span>=<span class="hljs-string">“yourShader.frag"</span> <span class="hljs-attr">data-textures</span>=<span class="hljs-string">“yourInputImage.png”</span> <span class="hljs-attr">width</span>=<span class="hljs-string">"500"</span> <span class="hljs-attr">height</span>=<span class="hljs-string">"500"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">canvas</span>&gt;</span></code><div class="open_grepper_editor" title="Edit &amp; Save To Grepper"></div></pre>
+<p>As you can see, it just needs a <code>canvas</code> element with <code>class="glslCanvas"</code> and the url to your shader in the <code>data-fragment-url</code>. Learn more about it <a href="https://github.com/patriciogonzalezvivo/glslCanvas">here</a>.</p>
+<p>If you are like me, you will probably want to run shaders directly from the console, in that case you should check out <a href="https://github.com/patriciogonzalezvivo/glslViewer">glslViewer</a>. This application allows you to incorporate shaders into your <code>bash</code> scripts or unix pipelines and use it in a similar way to <a href="http://www.imagemagick.org/script/index.php">ImageMagick</a>. Also <a href="https://github.com/patriciogonzalezvivo/glslViewer">glslViewer</a> is a great way to compile shaders on your <a href="https://www.raspberrypi.org/">Raspberry Pi</a>, which is the reason <a href="http://openframe.io/">openFrame.io</a> uses it to display shader artwork. Learn more about this application <a href="https://github.com/patriciogonzalezvivo/glslViewer">here</a>.</p>
+<pre style="position: relative;"><code class="language-bash hljs">glslViewer yourShader.frag yourInputImage.png —w 500 -h 500 -E screenshot,yourOutputImage.png</code><div class="open_grepper_editor" title="Edit &amp; Save To Grepper"></div></pre>
+<p><strong>Create</strong>: in order to illuminate the experience of coding shaders I made an online editor called <a href="https://github.com/patriciogonzalezvivo/glslEditor">glslEditor</a>.
+ This editor is embedded on the book's live examples, it brings a series
+ of handy widgets to make more tangible the abstract experience of 
+working with glsl code. You can also run it as a standalone web 
+application from <a href="http://editor.thebookofshaders.com/">editor.thebookofshaders.com/</a>. Learn more about it <a href="https://github.com/patriciogonzalezvivo/glslEditor">here</a>.</p>
+<p><img src="The%20Book%20of%20Shaders%20Running%20your%20shader_files/glslEditor-01.gif" alt=""></p>
+<p>If you prefer to work offline using <a href="https://www.sublimetext.com/">SublimeText</a> you can install this <a href="https://packagecontrol.io/packages/glslViewer">package for glslViewer</a>. Learn more about it <a href="https://github.com/patriciogonzalezvivo/sublime-glslViewer">here</a>.</p>
+<p><img src="The%20Book%20of%20Shaders%20Running%20your%20shader_files/glslViewer.gif" alt=""></p>
+<p><strong>Share</strong>: the online editor (<a href="http://editor.thebookofshaders.com/">editor.thebookofshaders.com/</a>)
+ can share your shaders! Both the embedded and standalone version have 
+an export button where you can get an unique URL's to your shader. Also 
+it has the ability to export directly to an <a href="http://openframe.io/">openFrame.io</a>.</p>
+<p><img src="The%20Book%20of%20Shaders%20Running%20your%20shader_files/glslEditor-00.gif" alt=""></p>
+<p><strong>Curate</strong>: Sharing your code is the beginning of you sharing your shader as artwork! Beside the option to export to <a href="http://openframe.io/">openFrame.io</a> I made a tool to curate your shaders into a gallery that can be embedded on any site, it’s name is <a href="https://github.com/patriciogonzalezvivo/glslGallery">glslGallery</a>. Learn more <a href="https://github.com/patriciogonzalezvivo/glslGallery">here</a>.</p>
+<p><img src="The%20Book%20of%20Shaders%20Running%20your%20shader_files/glslGallery.gif" alt=""></p>
+<h2>Running your shaders on your favorite framework</h2>
+<p>In case you already have experience programming in a framework like: <a href="https://processing.org/">Processing</a>, <a href="http://threejs.org/">Three.js</a>, <a href="http://openframeworks.cc/">OpenFrameworks</a> or <a href="https://www.sfml-dev.org/">SFML</a>,
+ you're probably excited to try shaders on these platforms you feel 
+comfortable with. The following are examples of how to set shaders in 
+some popular frameworks with the same uniforms that we are going to use 
+throughout this book. (In the <a href="https://github.com/patriciogonzalezvivo/thebookofshaders/tree/master/04">GitHub repository for this chapter</a>, you'll find the full source code for these three frameworks.)</p>
+<h3>In <strong>Three.js</strong></h3>
+<p>The brilliant and very humble Ricardo Cabello (aka <a href="https://twitter.com/mrdoob">MrDoob</a> ) has been developing along with other <a href="https://github.com/mrdoob/three.js/graphs/contributors">contributors</a> probably one of the most famous frameworks for WebGL, called <a href="http://threejs.org/">Three.js</a>.
+ You will find a lot of examples, tutorials and books that teach you how
+ to use this JavaScript library to make cool 3D graphics.</p>
+<p>Below is an example of the HTML and JS you need to get started with shaders in three.js. Pay attention to the <code>id="fragmentShader"</code> script, here is where you can copy the shaders you find in this book.</p>
+<pre style="position: relative;"><code class="language-html hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"container"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"js/three.min.js"</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"vertexShader"</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"x-shader/x-vertex"</span>&gt;</span><span class="javascript">
+        <span class="hljs-keyword">void</span> main() {
+            gl_Position = vec4( position, <span class="hljs-number">1.0</span> );
+        }
+    </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"fragmentShader"</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"x-shader/x-fragment"</span>&gt;</span><span class="javascript">
+        uniform vec2 u_resolution;
+        uniform float u_time;
+
+        <span class="hljs-keyword">void</span> main() {
+            vec2 st = gl_FragCoord.xy/u_resolution.xy;
+            gl_FragColor=vec4(st.x,st.y,<span class="hljs-number">0.0</span>,<span class="hljs-number">1.0</span>);
+        }
+    </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="javascript">
+        <span class="hljs-keyword">var</span> container;
+        <span class="hljs-keyword">var</span> camera, scene, renderer, clock;
+        <span class="hljs-keyword">var</span> uniforms;
+
+        init();
+        animate();
+
+        <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">init</span>(<span class="hljs-params"></span>) </span>{
+            container = <span class="hljs-built_in">document</span>.getElementById( <span class="hljs-string">'container'</span> );
+
+            camera = <span class="hljs-keyword">new</span> THREE.Camera();
+            camera.position.z = <span class="hljs-number">1</span>;
+
+            scene = <span class="hljs-keyword">new</span> THREE.Scene();
+            clock = <span class="hljs-keyword">new</span> THREE.Clock();
+
+            <span class="hljs-keyword">var</span> geometry = <span class="hljs-keyword">new</span> THREE.PlaneBufferGeometry( <span class="hljs-number">2</span>, <span class="hljs-number">2</span> );
+
+            uniforms = {
+                u_time: { type: <span class="hljs-string">"f"</span>, value: <span class="hljs-number">1.0</span> },
+                u_resolution: { type: <span class="hljs-string">"v2"</span>, value: <span class="hljs-keyword">new</span> THREE.Vector2() },
+                u_mouse: { type: <span class="hljs-string">"v2"</span>, value: <span class="hljs-keyword">new</span> THREE.Vector2() }
+            };
+
+            <span class="hljs-keyword">var</span> material = <span class="hljs-keyword">new</span> THREE.ShaderMaterial( {
+                uniforms: uniforms,
+                vertexShader: <span class="hljs-built_in">document</span>.getElementById( <span class="hljs-string">'vertexShader'</span> ).textContent,
+                fragmentShader: <span class="hljs-built_in">document</span>.getElementById( <span class="hljs-string">'fragmentShader'</span> ).textContent
+            } );
+
+            <span class="hljs-keyword">var</span> mesh = <span class="hljs-keyword">new</span> THREE.Mesh( geometry, material );
+            scene.add( mesh );
+
+            renderer = <span class="hljs-keyword">new</span> THREE.WebGLRenderer();
+            renderer.setPixelRatio( <span class="hljs-built_in">window</span>.devicePixelRatio );
+
+            container.appendChild( renderer.domElement );
+
+            onWindowResize();
+            <span class="hljs-built_in">window</span>.addEventListener( <span class="hljs-string">'resize'</span>, onWindowResize, <span class="hljs-literal">false</span> );
+
+            <span class="hljs-built_in">document</span>.onmousemove = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">e</span>)</span>{
+              uniforms.u_mouse.value.x = e.pageX
+              uniforms.u_mouse.value.y = e.pageY
+            }
+        }
+
+        <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">onWindowResize</span>(<span class="hljs-params"> event </span>) </span>{
+            renderer.setSize( <span class="hljs-built_in">window</span>.innerWidth, <span class="hljs-built_in">window</span>.innerHeight );
+            uniforms.u_resolution.value.x = renderer.domElement.width;
+            uniforms.u_resolution.value.y = renderer.domElement.height;
+        }
+
+        <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">animate</span>(<span class="hljs-params"></span>) </span>{
+            requestAnimationFrame( animate );
+            render();
+        }
+
+        <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">render</span>(<span class="hljs-params"></span>) </span>{
+            uniforms.u_time.value += clock.getDelta();
+            renderer.render( scene, camera );
+        }
+    </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span></code><div class="open_grepper_editor" title="Edit &amp; Save To Grepper"></div></pre>
+<h3>In <strong>Processing</strong></h3>
+<p>Started by <a href="http://benfry.com/">Ben Fry</a> and <a href="http://reas.com/">Casey Reas</a> in 2001, <a href="https://processing.org/">Processing</a> is an extraordinarily simple and powerful environment in which to take your first steps in code (it was for me at least). <a href="https://codeanticode.wordpress.com/">Andres Colubri</a>
+ has made important updates to the openGL and video in Processing, 
+making it easier than ever to use and play with GLSL shaders in this 
+friendly environment. Processing will search for the shader named <code>"shader.frag"</code> in the <code>data</code> folder of the sketch. Be sure to copy the examples you find here into that folder and rename the file.</p>
+<pre style="position: relative;"><code class="language-cpp hljs">PShader shader;
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">setup</span><span class="hljs-params">()</span> </span>{
+  size(<span class="hljs-number">640</span>, <span class="hljs-number">360</span>, P2D);
+  noStroke();
+
+  shader = loadShader(<span class="hljs-string">"shader.frag"</span>);
+}
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">draw</span><span class="hljs-params">()</span> </span>{
+  shader.<span class="hljs-built_in">set</span>(<span class="hljs-string">"u_resolution"</span>, <span class="hljs-keyword">float</span>(width), <span class="hljs-keyword">float</span>(height));
+  shader.<span class="hljs-built_in">set</span>(<span class="hljs-string">"u_mouse"</span>, <span class="hljs-keyword">float</span>(mouseX), <span class="hljs-keyword">float</span>(mouseY));
+  shader.<span class="hljs-built_in">set</span>(<span class="hljs-string">"u_time"</span>, millis() / <span class="hljs-number">1000.0</span>);
+  shader(shader);
+  rect(<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,width,height);
+}</code><div class="open_grepper_editor" title="Edit &amp; Save To Grepper"></div></pre>
+<p>In order for the shader to work on versions previous to 2.1, you need
+ to add the following line at the beginning of your shader: <code>#define PROCESSING_COLOR_SHADER</code>. So that it looks like this:</p>
+<pre style="position: relative;"><code class="language-glsl hljs"><span class="hljs-meta">#ifdef GL_ES</span>
+<span class="hljs-keyword">precision</span> <span class="hljs-keyword">mediump</span> <span class="hljs-type">float</span>;
+<span class="hljs-meta">#endif</span>
+
+<span class="hljs-meta">#define PROCESSING_COLOR_SHADER</span>
+
+<span class="hljs-keyword">uniform</span> <span class="hljs-type">vec2</span> u_resolution;
+<span class="hljs-keyword">uniform</span> <span class="hljs-type">vec3</span> u_mouse;
+<span class="hljs-keyword">uniform</span> <span class="hljs-type">float</span> u_time;
+
+<span class="hljs-type">void</span> main() {
+    <span class="hljs-type">vec2</span> st = <span class="hljs-built_in">gl_FragCoord</span>.st/u_resolution;
+    <span class="hljs-built_in">gl_FragColor</span> = <span class="hljs-type">vec4</span>(st.x,st.y,<span class="hljs-number">0.0</span>,<span class="hljs-number">1.0</span>);
+}</code><div class="open_grepper_editor" title="Edit &amp; Save To Grepper"></div></pre>
+<p>For more information about shaders in Processing check out this <a href="https://processing.org/tutorials/pshader/">tutorial</a>.</p>
+<h3>In <strong>openFrameworks</strong></h3>
+<p>Everybody has a place where they feel comfortable, in my case, that’s still the <a href="http://openframeworks.cc/">openFrameworks community</a>.
+ This C++ framework wraps around OpenGL and other open source C++ 
+libraries. In many ways it's very similar to Processing, but with the 
+obvious complications of dealing with C++ compilers. In the same way as 
+Processing, openFrameworks will search for your shader files in the data
+ folder, so don’t forget to copy the <code>.frag</code> files you want to use and change the name when you load them.</p>
+<pre style="position: relative;"><code class="language-cpp hljs"><span class="hljs-keyword">void</span> ofApp::draw(){
+    ofShader shader;
+    shader.load(<span class="hljs-string">""</span>,<span class="hljs-string">"shader.frag"</span>);
+
+    shader.begin();
+    shader.setUniform1f(<span class="hljs-string">"u_time"</span>, ofGetElapsedTimef());
+    shader.setUniform2f(<span class="hljs-string">"u_resolution"</span>, ofGetWidth(), ofGetHeight());
+    ofRect(<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,ofGetWidth(), ofGetHeight());
+    shader.end();
+}</code><div class="open_grepper_editor" title="Edit &amp; Save To Grepper"></div></pre>
+<p>If you want to use the full set of uniforms contain on the specs of 
+GlslViewer and GlslCanvas in a more simple way on OpenFrameworks I 
+recomend using the <a href="https://github.com/patriciogonzalezvivo/ofxshader">ofxShader</a>
+ addon which will also have support for multiple buffers, material 
+shaders, hotreload and automatic conversion for OpenGL ES in the 
+Raspberry Pi. And your code will be as simple as doing</p>
+<pre style="position: relative;"><code class="language-cpp hljs"><span class="hljs-comment">//--------------------------------------------------------------</span>
+<span class="hljs-keyword">void</span> ofApp::setup(){
+    ofDisableArbTex();
+
+    sandbox.allocate(ofGetWidth(), ofGetHeight());
+    sandbox.load(<span class="hljs-string">"grayscott.frag"</span>);
+}
+
+<span class="hljs-comment">//--------------------------------------------------------------</span>
+<span class="hljs-keyword">void</span> ofApp::draw(){
+    sandbox.render();
+    sandbox.draw(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>);
+}</code><div class="open_grepper_editor" title="Edit &amp; Save To Grepper"></div></pre>
+<p>For more information about shaders in openFrameworks go to this <a href="http://openframeworks.cc/ofBook/chapters/shaders.html">excellent tutorial</a> made by <a href="http://thefactoryfactory.com/">Joshua Noble</a>.</p>
+<h3>In <strong>Blender</strong></h3>
+<p><a href="https://github.com/patriciogonzalezvivo/glslTexture">GlslTexture</a>
+ is an addon that allows you to programmatically generate textures using
+ GLSL Shaders and is fully compatible with the rest of the sandboxes on 
+this chapter. How it works:</p>
+<ol>
+<li>Operator Search: <code>F3</code> (or <code>SpaceBar</code> depending on your setup). Type <code>GlslTexture</code></li>
+</ol>
+<p><img src="The%20Book%20of%20Shaders%20Running%20your%20shader_files/00.png" alt=""></p>
+<ol>
+<li>Change <code>width</code> and <code>height</code> size and <code>Source</code> file (which can be a path to an external file). </li>
+</ol>
+<p><img src="The%20Book%20of%20Shaders%20Running%20your%20shader_files/01.png" alt=""></p>
+<ol>
+<li>Use the Image on your materials. The Image name will be based on the name of the source file.</li>
+</ol>
+<p><img src="The%20Book%20of%20Shaders%20Running%20your%20shader_files/02.png" alt=""></p>
+<ol>
+<li>Go to the Text Editor (or an external editor if your source file is external) and edit the shader. It will hot reload.</li>
+</ol>
+<p><img src="The%20Book%20of%20Shaders%20Running%20your%20shader_files/03.png" alt=""></p>
+	</div>
+	<hr>
+	<ul class="navigationBar">
+		<li class="navigationBar" onclick="previusPage()">&lt; &lt; Previous</li>
+		<li class="navigationBar" onclick="homePage()"> Home </li>
+		<li class="navigationBar" onclick="nextPage()">Next &gt; &gt;</li>
+	</ul>
+
+        <footer>
+            <p> Copyright 2015 <a href="http://www.patriciogonzalezvivo.com/" target="_blank">Patricio Gonzalez Vivo</a> </p>
+        </footer>
+
+        <script type="text/javascript" src="The%20Book%20of%20Shaders%20Running%20your%20shader_files/main.js" defer="defer"></script>
+        <script>
+            (function(i,s,o,g,r,a,m){i["GoogleAnalyticsObject"]=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,"script","//www.google-analytics.com/analytics.js","ga");
+
+            ga("create", "UA-18824436-2", "auto");
+            ga("send", "pageview");
+        </script>
+    
+
+</body></html>

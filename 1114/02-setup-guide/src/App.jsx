@@ -104,14 +104,14 @@ function App() {
         font: font,
         size: 3,
         height: .1,
-        curveSegments: 1,
+        curveSegments: 10,
         bevelEnabled: true,
         bevelThickness: 0.1,
         bevelSize: 0.1,
         bevelOffset: 0.01,
-        bevelSegments: 1,
+        bevelSegments: 4,
       });
-      
+
       const boxMaterial = new THREE.ShaderMaterial({
         uniforms: uniformData,
         vertexShader: `
